@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel学习网站 - 管理后台</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="css/admin.css" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <!-- 导航栏 -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Excel学习网站管理后台</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#dashboard" @click="currentView = 'dashboard'">
+                                <i class="fas fa-chart-line"></i> 仪表盘
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#users" @click="currentView = 'users'">
+                                <i class="fas fa-users"></i> 用户管理
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#content" @click="currentView = 'content'">
+                                <i class="fas fa-file-alt"></i> 内容管理
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#feedback" @click="currentView = 'feedback'">
+                                <i class="fas fa-comments"></i> 反馈管理
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#logs" @click="currentView = 'logs'">
+                                <i class="fas fa-history"></i> 操作日志
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" @click="logout">
+                                <i class="fas fa-sign-out-alt"></i> 退出
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- 主要内容区域 -->
+        <div class="container-fluid mt-4">
+            <!-- 仪表盘 -->
+            <div v-if="currentView === 'dashboard'" class="dashboard">
+                <h2>仪表盘</h2>
+                <!-- 加载状态 -->
+                <div v-if="loading.stats" class="text-center my-4">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">加载中...</span>
+                    </div>
+                </div>
+                <div v-else>
+                    <div class="row mt-4">
+                        <div class="col-md-3">
+                            <div class="card bg-primary text-white">
+                                <div class="card-body">
+                                    <h5 class="card-title">总用户数</h5>
+                                    <h2 class="card-text">{{ stats.totalUsers || 0 }}</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card bg-success text-white">
+                                <div class="card-body">
+                                    <h5 class="card-title">教程数量</h5>
+                                    <h2 class="card-text">{{ stats.totalTutorials || 0 }}</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card bg-info text-white">
+                                <div class="card-body">
+                                    <h5 class="card-title">公式数量</h5>
+                                    <h2 class="card-text">{{ stats.totalFormulas || 0 }}</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card bg-warning text-white">
+                                <div class="card-body">
+                                    <h5 class="card-title">待处理反馈</h5>
+                                    <h2 class="card-text">{{ stats.pendingFeedback || 0 }}</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 统计图表 -->
+                    <div class="row mt-4">
+                        <!-- 用户增长趋势 -->
+                        <div class="col-md-6 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">用户增长趋势</h5>
+                                    <canvas id="userGrowthChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 内容分布 -->
+                        <div class="col-md-6 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">内容分布</h5>
+                                    <canvas id="contentDistributionChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 反馈类型统计 -->
+                        <div class="col-md-6 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">反馈类型统计</h5>
+                                    <canvas id="feedbackTypeChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 活跃用户统计 -->
+                        <div class="col-md-6 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">活跃用户统计</h5>
+                                    <canvas id="activeUsersChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 用户管理 -->
+            <div v-if="currentView === 'users'" class="users">
+                <h2>用户管理</h2>
+                <!-- 加载状态 -->
+                <div v-if="loading.users" class="text-center my-4">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">加载中...</span>
+                    </div>
+                </div>
+                <div v-else>
+                    <!-- 用户筛选组件 -->
+                    <div class="search-filters mb-4">
+                        <div class="row g-3">
+                            <!-- 基本筛选 -->
+                            <div class="col-md-4">
+                                <input type="text" 
+                                       class="form-control" 
+                                       v-model="userFilters.search" 
+                                       @input="debounceSearch"
+                                       placeholder="搜索用户名或邮箱...">
+                            </div>
+                            <div class="col-md-2">
+                                <select class="form-select" v-model="userFilters.role">
+                                    <option value="">所有角色</option>
+                                    <option v-for="role in availableRoles" 
+                                            :key="role.value" 
+                                            :value="role.value">
+                                        {{ role.label }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <select class="form-select" v-model="userFilters.status">
+                                    <option value="">所有状态</option>
+                                    <option value="active">活跃</option>
+                                    <option value="inactive">不活跃</option>
+                                    <option value="blocked">已封禁</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <select class="form-select" v-model="userFilters.sortBy">
+                                    <option value="created_at">注册时间</option>
+                                    <option value="username">用户名</option>
+                                    <option value="email">邮箱</option>
+                                    <option value="last_login">最后登录</option>
+                                    <option value="login_count">登录次数</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <select class="form-select" v-model="userFilters.order">
+                                    <option value="desc">降序</option>
+                                    <option value="asc">升序</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- 高级筛选 -->
+                        <div class="row mt-3" v-if="showAdvancedFilters">
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <span class="input-group-text">注册时间</span>
+                                    <input type="date" 
+                                           class="form-control" 
+                                           v-model="userFilters.registerDateStart"
+                                           @change="loadUsers(1)">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <span class="input-group-text">至</span>
+                                    <input type="date" 
+                                           class="form-control" 
+                                           v-model="userFilters.registerDateEnd"
+                                           @change="loadUsers(1)">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <span class="input-group-text">登录次数</span>
+                                    <input type="number" 
+                                           class="form-control" 
+                                           v-model="userFilters.loginCountMin"
+                                           @input="debounceSearch"
+                                           placeholder="最小值">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <span class="input-group-text">至</span>
+                                    <input type="number" 
+                                           class="form-control" 
+                                           v-model="userFilters.loginCountMax"
+                                           @input="debounceSearch"
+                                           placeholder="最大值">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 高级筛选切换按钮 -->
+                        <div class="row mt-2">
+                            <div class="col d-flex justify-content-between align-items-center">
+                                <button class="btn btn-link" @click="showAdvancedFilters = !showAdvancedFilters">
+                                    {{ showAdvancedFilters ? '收起' : '展开' }}高级筛选
+                                    <i class="fas" :class="showAdvancedFilters ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary" @click="resetUserFilters">
+                                    <i class="fas fa-undo me-1"></i>重置筛选
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 添加导出按钮和批量操作按钮 -->
+                    <div class="d-flex justify-content-between mb-3">
+                        <div class="bulk-actions" v-if="selectedUsers.length > 0">
+                            <button class="btn btn-warning me-2" @click="bulkChangeRole">
+                                <i class="fas fa-user-tag me-1"></i>批量修改角色
+                            </button>
+                            <button class="btn btn-danger" @click="bulkDeleteUsers">
+                                <i class="fas fa-trash me-1"></i>批量删除
+                            </button>
+                        </div>
+                        <button class="btn btn-success" @click="exportUsers">
+                            <i class="fas fa-file-export me-1"></i>导出用户数据
+                        </button>
+                    </div>
+                    <div class="table-responsive mt-4">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" 
+                                               class="form-check-input" 
+                                               v-model="selectAllUsers"
+                                               @change="toggleAllUsers">
+                                    </th>
+                                    <th>ID</th>
+                                    <th>用户名</th>
+                                    <th>邮箱</th>
+                                    <th>角色</th>
+                                    <th>注册时间</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="user in users" :key="user.id">
+                                    <td>
+                                        <input type="checkbox" 
+                                               class="form-check-input"
+                                               v-model="selectedUsers"
+                                               :value="user.id">
+                                    </td>
+                                    <td>{{ user.id }}</td>
+                                    <td>{{ user.username }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>
+                                        <span class="badge" :class="getRoleBadgeClass(user.roles)">
+                                            {{ user.roles || 'user' }}
+                                        </span>
+                                    </td>
+                                    <td>{{ formatDate(user.created_at) }}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary" @click="editUser(user)">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- 分页 -->
+                    <nav>
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item" :class="{ disabled: currentPage === 1 }">
+                                <a class="page-link" href="#" @click="changePage(currentPage - 1)">上一页</a>
+                            </li>
+                            <li class="page-item">
+                                <span class="page-link">{{ currentPage }} / {{ totalPages }}</span>
+                            </li>
+                            <li class="page-item" :class="{ disabled: currentPage === totalPages }">
+                                <a class="page-link" href="#" @click="changePage(currentPage + 1)">下一页</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- 内容管理 -->
+            <div v-if="currentView === 'content'" class="content">
+                <h2>内容管理</h2>
+                <!-- 加载状态 -->
+                <div v-if="loading.content" class="text-center my-4">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">加载中...</span>
+                    </div>
+                </div>
+                <div v-else>
+                    <!-- 添加内容搜索和筛选组件 -->
+                    <div class="search-filters mb-4">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <input type="text" 
+                                       class="form-control" 
+                                       v-model="contentFilters.search" 
+                                       @input="debounceContentSearch"
+                                       placeholder="搜索标题或内容...">
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-select" v-model="contentFilters.type">
+                                    <option value="">所有类型</option>
+                                    <option value="tutorial">教程</option>
+                                    <option value="formula">公式</option>
+                                    <option value="question">问题</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <select class="form-select" v-model="contentFilters.sortBy">
+                                    <option value="created_at">创建时间</option>
+                                    <option value="title">标题</option>
+                                    <option value="views">浏览量</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <select class="form-select" v-model="contentFilters.order">
+                                    <option value="desc">降序</option>
+                                    <option value="asc">升序</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 添加导出按钮和批量操作按钮 -->
+                    <div class="d-flex justify-content-between mb-3">
+                        <div class="bulk-actions" v-if="selectedContent.length > 0">
+                            <button class="btn btn-warning me-2" @click="bulkChangeStatus">
+                                <i class="fas fa-edit me-1"></i>批量修改状态
+                            </button>
+                            <button class="btn btn-danger" @click="bulkDeleteContent">
+                                <i class="fas fa-trash me-1"></i>批量删除
+                            </button>
+                        </div>
+                        <button class="btn btn-success" @click="exportContent">
+                            <i class="fas fa-file-export me-1"></i>导出{{ contentTab === 'tutorials' ? '教程' : '公式' }}数据
+                        </button>
+                    </div>
+                    <ul class="nav nav-tabs mt-4">
+                        <li class="nav-item">
+                            <a class="nav-link" :class="{ active: contentTab === 'tutorials' }" 
+                               href="#" @click="contentTab = 'tutorials'">教程</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" :class="{ active: contentTab === 'formulas' }" 
+                               href="#" @click="contentTab = 'formulas'">公式</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" :class="{ active: contentTab === 'comments' }" 
+                               href="#" @click="contentTab = 'comments'">评论</a>
+                        </li>
+                    </ul>
+                    <div class="table-responsive mt-4">
+                        <!-- 内容列表 -->
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" 
+                                               class="form-check-input" 
+                                               v-model="selectAllContent"
+                                               @change="toggleAllContent">
+                                    </th>
+                                    <th>ID</th>
+                                    <th>标题/内容</th>
+                                    <th>类型/分类</th>
+                                    <th>创建时间</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="item in contentList" :key="item.id">
+                                    <td>
+                                        <input type="checkbox" 
+                                               class="form-check-input"
+                                               v-model="selectedContent"
+                                               :value="item.id">
+                                    </td>
+                                    <td>{{ item.id }}</td>
+                                    <td>{{ item.title || item.content }}</td>
+                                    <td>{{ item.category || item.type }}</td>
+                                    <td>{{ formatDate(item.created_at) }}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-danger" @click="deleteContent(item)">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 反馈管理 -->
+            <div v-if="currentView === 'feedback'" class="feedback">
+                <h2>反馈管理</h2>
+                <div class="table-responsive mt-4">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>用户</th>
+                                <th>类型</th>
+                                <th>标题</th>
+                                <th>状态</th>
+                                <th>提交时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="feedback in feedbackList" :key="feedback.id">
+                                <td>{{ feedback.id }}</td>
+                                <td>{{ feedback.username }}</td>
+                                <td>
+                                    <span class="badge" :class="getFeedbackTypeBadgeClass(feedback.type)">
+                                        {{ feedback.type }}
+                                    </span>
+                                </td>
+                                <td>{{ feedback.title }}</td>
+                                <td>
+                                    <span class="badge" :class="getFeedbackStatusBadgeClass(feedback.status)">
+                                        {{ feedback.status }}
+                                    </span>
+                                </td>
+                                <td>{{ formatDate(feedback.created_at) }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary" @click="viewFeedback(feedback)">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 操作日志 -->
+            <div v-if="currentView === 'logs'" class="logs">
+                <h2>操作日志</h2>
+                <div class="table-responsive mt-4">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>管理员</th>
+                                <th>操作</th>
+                                <th>目标类型</th>
+                                <th>目标ID</th>
+                                <th>详情</th>
+                                <th>时间</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="log in logs" :key="log.id">
+                                <td>{{ log.id }}</td>
+                                <td>{{ log.admin_username }}</td>
+                                <td>{{ log.action }}</td>
+                                <td>{{ log.target_type }}</td>
+                                <td>{{ log.target_id }}</td>
+                                <td>{{ log.details }}</td>
+                                <td>{{ formatDate(log.created_at) }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 添加刷新按钮 -->
+            <div class="position-fixed bottom-0 end-0 p-3">
+                <button class="btn btn-primary rounded-circle shadow" 
+                        @click="clearCache(); loadCurrentView()"
+                        title="刷新数据">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 用户编辑对话框 -->
+    <div class="modal fade" id="editUserModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">编辑用户</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form @submit.prevent="saveUser">
+                        <div class="mb-3">
+                            <label class="form-label">用户名</label>
+                            <input type="text" class="form-control" v-model="editingUser.username" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">邮箱</label>
+                            <input type="email" class="form-control" v-model="editingUser.email" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">角色</label>
+                            <div class="form-check" v-for="role in availableRoles" :key="role.value">
+                                <input class="form-check-input" type="checkbox" 
+                                       :value="role.value" 
+                                       v-model="editingUser.roles"
+                                       :id="'role-' + role.value">
+                                <label class="form-check-label" :for="'role-' + role.value">
+                                    {{ role.label }}
+                                </label>
+                            </div>
+                        </div>
+                        <div class="alert alert-danger" v-if="editError">
+                            {{ editError }}
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" @click="saveUser" :disabled="isSaving">
+                        <span v-if="isSaving" class="spinner-border spinner-border-sm me-1"></span>
+                        保存
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vue.js -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Admin JS -->
+    <script src="js/admin.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html> 

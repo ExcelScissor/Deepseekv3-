@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel 学习 - 资源库</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/database.css">
+</head>
+<body>
+    <div class="database-main">
+        <!-- 返回按钮 -->
+        <div class="back-button">
+            <a href="index.html">
+                <i class="fas fa-arrow-left"></i>
+                <span>返回首页</span>
+            </a>
+        </div>
+
+        <!-- 搜索区域 -->
+        <div class="search-container">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="搜索公式名（如直接输入：Vlookup）或快捷键（如直接输入：粘贴）...">
+            </div>
+        </div>
+
+        <!-- 内容区域 -->
+        <div class="content-container">
+            <!-- Excel公式部分 -->
+            <div class="formula-section">
+                <div class="section-header">
+                    <h2>Excel 公式</h2>
+                    <!-- 字母筛选器移到这里 -->
+                    <div class="alphabet-filter">
+                        <button class="letter active">全部</button>
+                        <button class="letter">A</button>
+                        <button class="letter">B</button>
+                        <button class="letter">C</button>
+                        <button class="letter">D</button>
+                        <button class="letter">E</button>
+                        <button class="letter">F</button>
+                        <button class="letter">G</button>
+                        <button class="letter">H</button>
+                        <button class="letter">I</button>
+                        <button class="letter">J</button>
+                        <button class="letter">K</button>
+                        <button class="letter">L</button>
+                        <button class="letter">M</button>
+                        <button class="letter">N</button>
+                        <button class="letter">O</button>
+                        <button class="letter">P</button>
+                        <button class="letter">Q</button>
+                        <button class="letter">R</button>
+                        <button class="letter">S</button>
+                        <button class="letter">T</button>
+                        <button class="letter">U</button>
+                        <button class="letter">V</button>
+                        <button class="letter">W</button>
+                        <button class="letter">X</button>
+                        <button class="letter">Y</button>
+                        <button class="letter">Z</button>
+                    </div>
+                    <div class="category-filter">
+                        <button class="category-btn active">全部</button>
+                        <button class="category-btn">数学</button>
+                        <button class="category-btn">文本</button>
+                        <button class="category-btn">日期</button>
+                        <button class="category-btn">逻辑</button>
+                        <button class="category-btn">查找</button>
+                    </div>
+                </div>
+                <div class="formula-list">
+                    <!-- 公式列表将由JavaScript动态生成 -->
+                </div>
+            </div>
+
+            <!-- 快捷键部分 -->
+            <div class="shortcut-section">
+                <div class="section-header">
+                    <h2>快捷键</h2>
+                    <div class="os-selection">
+                        <button class="os-option active">
+                            <i class="fab fa-windows"></i>
+                            <span>Windows</span>
+                        </button>
+                        <button class="os-option">
+                            <i class="fab fa-apple"></i>
+                            <span>Mac</span>
+                        </button>
+                    </div>
+                    <div class="shortcut-category-filter">
+                        <button class="shortcut-category-btn active">全部</button>
+                        <button class="shortcut-category-btn">编辑操作</button>
+                        <button class="shortcut-category-btn">格式设置</button>
+                        <button class="shortcut-category-btn">数据处理</button>
+                        <button class="shortcut-category-btn">单元格操作</button>
+                        <button class="shortcut-category-btn">视图控制</button>
+                    </div>
+                </div>
+                <div class="shortcuts-list">
+                    <!-- 快捷键列表将由JavaScript动态生成 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/database.js"></script>
+</body>
+</html> 
