@@ -6,12 +6,48 @@
     <title>ExcelScissor - Excel学习平台</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            margin: 0;
+            color: #1F6C42;
+            display: block;
+            margin-right: 10px;
+        }
+
+        .logo-image {
+            width: auto;
+            height: 40px;
+            margin-left: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .logo-image {
+                height: 35px;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
         <nav>
             <div class="logo">
-                <h1>ExcelScissor</h1>
+                <a href="index.html">
+                    <h1>ExcelScissor</h1>
+                    <img class="logo-image" src="img/Logo.jpg" alt="ExcelScissor">
+                </a>
             </div>
             <ul class="nav-links">
                 <li><a href="resource.html"><i class="fas fa-database"></i> 资源库</a></li>
