@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExcelScissor - AI助手小喵</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/marked/lib/marked.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-top: 100px;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #1F6C42;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(31, 108, 66, 0.1);
+            background-color: #FFFFFF;
+        }
+
+        .chat-messages {
+            width: 100%;
+            height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #eee;
+        }
+
+        .message {
+            margin: 12px 0;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .user-message {
+            background-color: #E3F2FD;
+            margin-left: 20%;
+            border: none;
+            color: #1565C0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .bot-message {
+            background-color: #E8F5E9;
+            margin-right: 20%;
+            border: 1px solid #A5D6A7;
+            color: #1F6C42;
+        }
+
+        .welcome-message {
+            text-align: center;
+            color: #1F6C42;
+            font-size: 1.1em;
+            font-weight: 700;
+            padding: 12px;
+            margin-bottom: 20px;
+            white-space: nowrap;
+        }
+
+        .input-group {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto 20px auto;
+            display: flex;
+            gap: 10px;
+            padding: 0 20px;
+        }
+
+        .input-group input {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 15px;
+            width: 100%;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #1F6C42;
+        }
+
+        .btn-primary {
+            background-color: #1F6C42;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #185535;
+        }
+
+        .btn-primary:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .back-button {
+            position: fixed;
+            left: 20px;
+            top: 80px;
+            padding: 8px 15px;
+            background-color: #1F6C42;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #185535;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            color: #1F6C42;
+            font-size: 1.1em;
+            gap: 20px;
+            padding: 10px;
+        }
+
+        .running-cat {
+            --cat-color: #1F6C42;
+            position: relative;
+            display: inline-block;
+            margin-left: 30px;
+            animation: run 1.5s infinite linear;
+            transform: scale(1.2);
+        }
+
+        /* 猫咪身体 */
+        .running-cat::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 12px;
+            background: var(--cat-color);
+            border-radius: 20px 20px 0 0;
+            top: 0;
+            left: 0;
+        }
+
+        /* 猫咪头部 */
+        .running-cat::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--cat-color);
+            border-radius: 50%;
+            top: -4px;
+            left: -8px;
+        }
+
+        /* 猫咪耳朵 */
+        .running-cat .ears {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-bottom: 7px solid var(--cat-color);
+        }
+
+        .running-cat .ears.left {
+            left: -6px;
+            top: -9px;
+            transform: rotate(-30deg);
+        }
+
+        .running-cat .ears.right {
+            left: 0px;
+            top: -9px;
+            transform: rotate(30deg);
+        }
+
+        /* 猫咪尾巴 */
+        .running-cat .tail {
+            position: absolute;
+            width: 10px;
+            height: 7px;
+            background: var(--cat-color);
+            right: -8px;
+            top: 4px;
+            border-radius: 0 10px 10px 0;
+            animation: tail 0.3s infinite alternate;
+        }
+
+        /* 猫咪腿部 */
+        .running-cat .legs {
+            position: absolute;
+            width: 2.5px;
+            height: 6px;
+            background: var(--cat-color);
+            bottom: -5px;
+            animation: legs 0.2s infinite alternate;
+        }
+
+        .running-cat .legs:nth-child(3) { left: 2px; animation-delay: 0s; }
+        .running-cat .legs:nth-child(4) { left: 7px; animation-delay: 0.1s; }
+        .running-cat .legs:nth-child(5) { left: 12px; animation-delay: 0.2s; }
+        .running-cat .legs:nth-child(6) { left: 17px; animation-delay: 0.3s; }
+
+        @keyframes run {
+            0% { transform: translateX(-30px) scaleX(1); }
+            50% { transform: translateX(30px) scaleX(1.1); }
+            100% { transform: translateX(-30px) scaleX(1); }
+        }
+
+        @keyframes tail {
+            from { transform: rotate(-10deg); }
+            to { transform: rotate(10deg); }
+        }
+
+        @keyframes legs {
+            from { height: 6px; }
+            to { height: 4px; transform: translateY(1px); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html" style="text-decoration: none; color: inherit;">
+                    <h1>ExcelScissor</h1>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> 首页</a></li>
+                <li><a href="resource.html"><i class="fas fa-database"></i> 资源库</a></li>
+                <li><a href="login.html"><i class="fas fa-user"></i> 登录</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <button class="back-button" onclick="goBack()">
+        <i class="fas fa-arrow-left"></i> 返回
+    </button>
+
+    <main>
+        <div class="chat-container">
+            <div class="welcome-message">
+                <i class="fas fa-cat"></i> 我是小喵，请告诉我您的Excel相关问题吧？
+            </div>
+            <div class="input-group">
+                <input type="text" id="userInput" class="form-control" placeholder="请输入您的Excel相关问题...">
+                <button class="btn btn-primary" id="sendButton" onclick="sendMessage()">
+                    <span id="buttonText">发送</span>
+                    <span id="loadingDots" style="display: none">...</span>
+                </button>
+            </div>
+            <div class="chat-messages" id="chatMessages"></div>
+        </div>
+    </main>
+
+    <script>
+        const DEEPSEEK_API_KEY = 'sk-3d319250c26a402e860490e691d7803f';
+        const DEEPSEEK_API_URL = 'https://api.deepseek.com/chat/completions';
+
+        let isProcessing = false;
+
+        async function sendMessage() {
+            const userInput = document.getElementById('userInput');
+            const sendButton = document.getElementById('sendButton');
+            const buttonText = document.getElementById('buttonText');
+            const loadingDots = document.getElementById('loadingDots');
+            const message = userInput.value.trim();
+            
+            if (!message || isProcessing) return;
+            
+            isProcessing = true;
+            sendButton.disabled = true;
+            buttonText.style.display = 'none';
+            loadingDots.style.display = 'inline';
+            
+            appendMessage(message, 'user');
+            userInput.value = '';
+
+            try {
+                const loadingDiv = document.createElement('div');
+                loadingDiv.className = 'loading';
+                loadingDiv.innerHTML = '小喵正在思考中 <span class="running-cat"><div class="ears left"></div><div class="ears right"></div><div class="tail"></div><div class="legs"></div><div class="legs"></div><div class="legs"></div><div class="legs"></div></span>';
+                document.getElementById('chatMessages').appendChild(loadingDiv);
+
+                const response = await fetch(DEEPSEEK_API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${DEEPSEEK_API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        model: 'deepseek-chat',
+                        messages: [
+                            {
+                                role: "system", 
+                                content: "你是Excel助手小喵，一个可爱的AI助手。当用户问你是谁时，请用这句固定的话回答：'喵～我是ExcelScissor的AI助手小喵，专门帮助大家解决Excel相关的问题哦！无论是公式、操作步骤还是其他Excel技巧，我都可以帮你解答。有什么问题尽管问我吧，喵 😊'。其他问题请用活泼可爱的语气回答，回答要专业且友好，需要时可以提供具体的Excel公式或操作步骤。可以使用markdown符号来让回答更有层次感，比如用**加粗**来强调重点，用`代码块`来显示Excel公式。"
+                            },
+                            {
+                                role: 'user',
+                                content: message
+                            }
+                        ],
+                        stream: false,
+                        temperature: 0.7,
+                        max_tokens: 2000
+                    })
+                });
+
+                loadingDiv.remove();
+
+                if (!response.ok) {
+                    throw new Error('API请求失败');
+                }
+
+                const data = await response.json();
+                const botResponse = data.choices[0].message.content;
+                appendMessage(botResponse, 'bot');
+            } catch (error) {
+                console.error('Error:', error);
+                appendMessage('抱歉，发生了错误，请稍后重试。', 'error-message');
+            } finally {
+                isProcessing = false;
+                sendButton.disabled = false;
+                buttonText.style.display = 'inline';
+                loadingDots.style.display = 'none';
+            }
+        }
+
+        function appendMessage(message, type) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}-message`;
+            
+            if (type === 'bot') {
+                messageDiv.innerHTML = marked.parse(message);
+            } else {
+                messageDiv.textContent = message;
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+
+        // 添加回车发送功能
+        document.getElementById('userInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // 页面加载完成后自动聚焦输入框
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('userInput').focus();
+        });
+    </script>
+</body>
+</html> 

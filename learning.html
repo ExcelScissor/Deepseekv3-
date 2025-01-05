@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ExcelScissor - Excel学习课程">
+    <title>学习中心 - ExcelScissor</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .learning-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+        }
+
+        .course-sidebar {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .course-content {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .course-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .course-category {
+            margin-bottom: 15px;
+        }
+
+        .category-title {
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .course-item {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .course-item:hover {
+            background: #f5f5f5;
+        }
+
+        .course-item.active {
+            background: #e8f5e9;
+            color: #4CAF50;
+        }
+
+        .course-item i {
+            width: 20px;
+        }
+
+        .progress-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            margin-left: auto;
+        }
+
+        .completed {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .in-progress {
+            background: #FFC107;
+            color: white;
+        }
+
+        .not-started {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .content-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .content-header h2 {
+            margin: 0;
+            color: #333;
+        }
+
+        .content-body {
+            line-height: 1.6;
+        }
+
+        .content-footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .nav-button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            background: #4CAF50;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-button:hover {
+            background: #45a049;
+        }
+
+        .nav-button:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .error-message {
+            display: none;
+            color: #ff4444;
+            background-color: #ffe6e6;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .practice-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 4px;
+        }
+
+        .practice-section h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .exercise {
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 4px;
+        }
+
+        .submit-answer {
+            margin-top: 10px;
+            padding: 8px 16px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .submit-answer:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="learning-container">
+        <aside class="course-sidebar">
+            <div id="loading" class="loading">
+                <i class="fas fa-spinner fa-spin"></i> 加载中...
+            </div>
+
+            <div id="error-message" class="error-message"></div>
+
+            <div class="course-list">
+                <div class="course-category">
+                    <h3 class="category-title">
+                        <i class="fas fa-star"></i> Excel基础
+                    </h3>
+                    <div class="course-items">
+                        <div class="course-item active">
+                            <i class="fas fa-file-alt"></i>
+                            Excel界面介绍
+                            <span class="progress-indicator completed">
+                                <i class="fas fa-check"></i>
+                            </span>
+                        </div>
+                        <div class="course-item">
+                            <i class="fas fa-table"></i>
+                            基本操作
+                            <span class="progress-indicator in-progress">
+                                <i class="fas fa-play"></i>
+                            </span>
+                        </div>
+                        <div class="course-item">
+                            <i class="fas fa-keyboard"></i>
+                            快捷键
+                            <span class="progress-indicator not-started">
+                                <i class="fas fa-circle"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-category">
+                    <h3 class="category-title">
+                        <i class="fas fa-calculator"></i> 公式与函数
+                    </h3>
+                    <div class="course-items">
+                        <div class="course-item">
+                            <i class="fas fa-plus"></i>
+                            基础公式
+                            <span class="progress-indicator not-started">
+                                <i class="fas fa-circle"></i>
+                            </span>
+                        </div>
+                        <div class="course-item">
+                            <i class="fas fa-percentage"></i>
+                            统计函数
+                            <span class="progress-indicator not-started">
+                                <i class="fas fa-circle"></i>
+                            </span>
+                        </div>
+                        <div class="course-item">
+                            <i class="fas fa-search"></i>
+                            查找函数
+                            <span class="progress-indicator not-started">
+                                <i class="fas fa-circle"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="course-category">
+                    <h3 class="category-title">
+                        <i class="fas fa-chart-bar"></i> 数据分析
+                    </h3>
+                    <div class="course-items">
+                        <div class="course-item">
+                            <i class="fas fa-filter"></i>
+                            数据筛选
+                            <span class="progress-indicator not-started">
+                                <i class="fas fa-circle"></i>
+                            </span>
+                        </div>
+                        <div class="course-item">
+                            <i class="fas fa-chart-pie"></i>
+                            数据透视表
+                            <span class="progress-indicator not-started">
+                                <i class="fas fa-circle"></i>
+                            </span>
+                        </div>
+                        <div class="course-item">
+                            <i class="fas fa-chart-line"></i>
+                            图表制作
+                            <span class="progress-indicator not-started">
+                                <i class="fas fa-circle"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="course-content">
+            <div class="content-header">
+                <h2>Excel界面介绍</h2>
+            </div>
+
+            <div class="content-body">
+                <p>Excel是Microsoft Office套件中的电子表格软件，它提供了强大的数据处理和分析功能。让我们先来了解Excel的基本界面组成：</p>
+
+                <h3>1. 功能区（Ribbon）</h3>
+                <p>功能区位于Excel窗口的顶部，包含了各种常用的命令和工具，按照不同的标签页进行分类：</p>
+                <ul>
+                    <li>开始：包含剪切板、字体、对齐方式等基本操作</li>
+                    <li>插入：用于插入图表、图片、形状等对象</li>
+                    <li>页面布局：设置文档的整体外观</li>
+                    <li>公式：包含函数库和公式相关工具</li>
+                    <li>数据：提供数据处理和分析工具</li>
+                </ul>
+
+                <h3>2. 工作表区域</h3>
+                <p>这是Excel的主要工作区域，由行和列组成网格。每个单元格都有唯一的地址，例如A1、B2等。</p>
+
+                <div class="practice-section">
+                    <h3>练习</h3>
+                    <div class="exercise">
+                        <p>问题：Excel中单元格A1的右侧和下方单元格的地址分别是什么？</p>
+                        <input type="text" id="answer1" placeholder="右侧单元格">
+                        <input type="text" id="answer2" placeholder="下方单元格">
+                        <button class="submit-answer" onclick="checkAnswer()">提交答案</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-footer">
+                <button class="nav-button" disabled>
+                    <i class="fas fa-arrow-left"></i> 上一课
+                </button>
+                <button class="nav-button" onclick="nextLesson()">
+                    下一课 <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // 检查登录状态
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = 'login.html';
+        }
+
+        // 检查练习答案
+        function checkAnswer() {
+            const answer1 = document.getElementById('answer1').value.toUpperCase();
+            const answer2 = document.getElementById('answer2').value.toUpperCase();
+            
+            if (answer1 === 'B1' && answer2 === 'A2') {
+                alert('回答正确！');
+                // 这里可以调用API记录学习进度
+            } else {
+                alert('答案不正确，请重试。提示：单元格按字母列和数字行编号。');
+            }
+        }
+
+        // 下一课
+        function nextLesson() {
+            // 这里应该调用API更新学习进度，然后加载下一课的内容
+            const courseItems = document.querySelectorAll('.course-item');
+            courseItems.forEach((item, index) => {
+                if (item.classList.contains('active') && index < courseItems.length - 1) {
+                    item.classList.remove('active');
+                    courseItems[index + 1].classList.add('active');
+                }
+            });
+        }
+
+        // 初始化课程列表点击事件
+        document.querySelectorAll('.course-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.course-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                // 这里应该调用API加载对应课程的内容
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ExcelScissor - 反馈与建议">
+    <title>反馈与建议 - ExcelScissor</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .feedback-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .feedback-form {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        .submit-button {
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .submit-button:hover {
+            background: #45a049;
+        }
+
+        .feedback-list {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .feedback-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .feedback-item:last-child {
+            border-bottom: none;
+        }
+
+        .feedback-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .feedback-title {
+            font-weight: 500;
+            color: #333;
+        }
+
+        .feedback-type {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: white;
+        }
+
+        .type-bug {
+            background: #ff4444;
+        }
+
+        .type-feature {
+            background: #4CAF50;
+        }
+
+        .type-suggestion {
+            background: #2196F3;
+        }
+
+        .type-question {
+            background: #FF9800;
+        }
+
+        .feedback-meta {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .feedback-content {
+            margin-bottom: 10px;
+            line-height: 1.5;
+        }
+
+        .feedback-reply {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .feedback-status {
+            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin-left: 10px;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-replied {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .error-message {
+            display: none;
+            color: #ff4444;
+            background-color: #ffe6e6;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .success-message {
+            display: none;
+            color: #4CAF50;
+            background-color: #e8f5e9;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .back-to-dashboard {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+            text-decoration: none;
+            margin-bottom: 20px;
+        }
+
+        .back-to-dashboard:hover {
+            color: #4CAF50;
+        }
+
+        .section-title {
+            margin: 30px 0 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="feedback-container">
+        <a href="dashboard.html" class="back-to-dashboard">
+            <i class="fas fa-arrow-left"></i> 返回仪表板
+        </a>
+
+        <div id="loading" class="loading">
+            <i class="fas fa-spinner fa-spin"></i> 加载中...
+        </div>
+
+        <div id="error-message" class="error-message"></div>
+        <div id="success-message" class="success-message"></div>
+
+        <div class="feedback-form">
+            <h2>提交反馈</h2>
+            <form id="feedback-form" onsubmit="return submitFeedback(event)">
+                <div class="form-group">
+                    <label for="feedback-type">反馈类型</label>
+                    <select id="feedback-type" name="type" required>
+                        <option value="">请选择反馈类型</option>
+                        <option value="bug">问题报告</option>
+                        <option value="feature">功能建议</option>
+                        <option value="suggestion">改进建议</option>
+                        <option value="question">使用疑问</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="feedback-title">标题</label>
+                    <input type="text" id="feedback-title" name="title" required 
+                           placeholder="请简要描述您的反馈">
+                </div>
+
+                <div class="form-group">
+                    <label for="feedback-content">详细内容</label>
+                    <textarea id="feedback-content" name="content" required 
+                              placeholder="请详细描述您的反馈内容，包括遇到的问题、建议或疑问"></textarea>
+                </div>
+
+                <button type="submit" class="submit-button">提交反馈</button>
+            </form>
+        </div>
+
+        <h3 class="section-title">我的反馈历史</h3>
+        <div id="feedback-list" class="feedback-list">
+            <!-- 反馈列表将通过JavaScript动态加载 -->
+        </div>
+    </div>
+
+    <script>
+        // 检查登录状态
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = 'login.html';
+        }
+
+        // 提交反馈
+        async function submitFeedback(event) {
+            event.preventDefault();
+            
+            const loading = document.getElementById('loading');
+            const errorMessage = document.getElementById('error-message');
+            const successMessage = document.getElementById('success-message');
+            
+            loading.style.display = 'block';
+            errorMessage.style.display = 'none';
+            successMessage.style.display = 'none';
+
+            const type = document.getElementById('feedback-type').value;
+            const title = document.getElementById('feedback-title').value;
+            const content = document.getElementById('feedback-content').value;
+
+            try {
+                const response = await fetch('/api/feedback', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ type, title, content })
+                });
+
+                if (response.ok) {
+                    successMessage.textContent = '反馈提交成功';
+                    successMessage.style.display = 'block';
+                    document.getElementById('feedback-form').reset();
+                    loadFeedbackList(); // 重新加载反馈列表
+                } else {
+                    throw new Error('提交反馈失败');
+                }
+            } catch (error) {
+                errorMessage.textContent = error.message;
+                errorMessage.style.display = 'block';
+            } finally {
+                loading.style.display = 'none';
+            }
+
+            return false;
+        }
+
+        // 加载反馈列表
+        async function loadFeedbackList() {
+            const loading = document.getElementById('loading');
+            const errorMessage = document.getElementById('error-message');
+            
+            loading.style.display = 'block';
+            errorMessage.style.display = 'none';
+
+            try {
+                const response = await fetch('/api/feedback', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const feedbacks = await response.json();
+                    const feedbackList = document.getElementById('feedback-list');
+                    
+                    if (feedbacks.length === 0) {
+                        feedbackList.innerHTML = '<p>暂无反馈记录</p>';
+                        return;
+                    }
+
+                    feedbackList.innerHTML = feedbacks.map(feedback => `
+                        <div class="feedback-item">
+                            <div class="feedback-header">
+                                <div class="feedback-title">
+                                    ${feedback.title}
+                                    <span class="feedback-type type-${feedback.type}">
+                                        ${getTypeText(feedback.type)}
+                                    </span>
+                                    <span class="feedback-status status-${feedback.status}">
+                                        ${getStatusText(feedback.status)}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="feedback-meta">
+                                提交时间：${new Date(feedback.created_at).toLocaleString()}
+                            </div>
+                            <div class="feedback-content">
+                                ${feedback.content}
+                            </div>
+                            ${feedback.admin_reply ? `
+                                <div class="feedback-reply">
+                                    <strong>管理员回复：</strong>
+                                    <p>${feedback.admin_reply}</p>
+                                    <small>回复时间：${new Date(feedback.admin_reply_at).toLocaleString()}</small>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `).join('');
+                } else {
+                    throw new Error('加载反馈列表失败');
+                }
+            } catch (error) {
+                errorMessage.textContent = error.message;
+                errorMessage.style.display = 'block';
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+
+        // 获取反馈类型文本
+        function getTypeText(type) {
+            const types = {
+                'bug': '问题报告',
+                'feature': '功能建议',
+                'suggestion': '改进建议',
+                'question': '使用疑问'
+            };
+            return types[type] || type;
+        }
+
+        // 获取状态文本
+        function getStatusText(status) {
+            const statuses = {
+                'pending': '待处理',
+                'replied': '已回复',
+                'resolved': '已解决',
+                'rejected': '已拒绝'
+            };
+            return statuses[status] || status;
+        }
+
+        // 页面加载时执行
+        loadFeedbackList();
+    </script>
+</body>
+</html> 

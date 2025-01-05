@@ -3,13 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excel 学习 - 资源库</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>ExcelScissor - 资源库</title>
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/database.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* 顶部导航样式，但不固定位置 */
+        header {
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        /* 确保database-main内容不被顶部导航遮挡 */
+        .database-main {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
+    <!-- 添加顶部导航，但不固定位置 -->
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html" style="text-decoration: none; color: inherit;">
+                    <h1>ExcelScissor</h1>
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> 首页</a></li>
+                <li><a href="resource.html"><i class="fas fa-database"></i> 资源库</a></li>
+                <li><a href="login.html"><i class="fas fa-user"></i> 登录</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- 保持原有的database-main结构 -->
     <div class="database-main">
-        <!-- 返回按钮 -->
+        <!-- 原有的返回按钮 -->
         <div class="back-button">
             <a href="index.html">
                 <i class="fas fa-arrow-left"></i>
