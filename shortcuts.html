@@ -44,11 +44,11 @@
                 <h2>Excel 快捷键</h2>
                 <!-- 系统选择 -->
                 <div class="os-selection">
-                    <button class="os-option active">
+                    <button class="os-option active" data-os="windows">
                         <i class="fab fa-windows"></i>
                         <span>Windows</span>
                     </button>
-                    <button class="os-option">
+                    <button class="os-option" data-os="mac">
                         <i class="fab fa-apple"></i>
                         <span>Mac</span>
                     </button>
@@ -56,11 +56,20 @@
                 <!-- 分类筛选器 -->
                 <div class="shortcut-category-filter">
                     <button class="shortcut-category-btn active">全部</button>
-                    <button class="shortcut-category-btn">编辑操作</button>
-                    <button class="shortcut-category-btn">格式设置</button>
+                    <button class="shortcut-category-btn">文件操作</button>
+                    <button class="shortcut-category-btn">编辑</button>
                     <button class="shortcut-category-btn">数据处理</button>
+                    <button class="shortcut-category-btn">格式设置</button>
+                    <button class="shortcut-category-btn">表格导航</button>
+                    <button class="shortcut-category-btn">插入与删除</button>
+                    <button class="shortcut-category-btn">查找与选择</button>
+                    <button class="shortcut-category-btn">视图调整</button>
+                    <button class="shortcut-category-btn">公式与函数</button>
                     <button class="shortcut-category-btn">单元格操作</button>
-                    <button class="shortcut-category-btn">视图控制</button>
+                    <button class="shortcut-category-btn">审阅与保护</button>
+                    <button class="shortcut-category-btn">页面设置</button>
+                    <button class="shortcut-category-btn">宏与开发工具</button>
+                    <button class="shortcut-category-btn">其他</button>
                 </div>
             </div>
             <!-- 快捷键列表容器 -->
@@ -70,6 +79,8 @@
         </div>
     </div>
 
+    <!-- 注意引入顺序：先引入数据，再引入处理逻辑 -->
+    <script src="js/shortcuts-data.js"></script>
     <script src="js/shortcuts.js"></script>
     <script>
         function goBack() {

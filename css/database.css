@@ -425,20 +425,27 @@
 }
 
 .shortcut-category-btn {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 6px;
-    background: #f8f9fa;
-    color: #2c3e50;
-    font-weight: 500;
+    padding: 8px 16px;
+    margin: 4px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
 }
 
-.shortcut-category-btn:hover,
 .shortcut-category-btn.active {
-    background: #217346;
+    background-color: #28a745;
     color: white;
+    border-color: #28a745;
+}
+
+.shortcut-category-btn:hover {
+    background-color: #f8f9fa;
+}
+
+.shortcut-category-btn.active:hover {
+    background-color: #218838;
 }
 
 @media (max-width: 768px) {
@@ -703,4 +710,107 @@ header nav {
 
 .alphabet-filter::-webkit-scrollbar-thumb:hover {
     background: #555;
+}
+
+/* 快捷键分类区块样式 */
+.shortcut-category {
+    margin-bottom: 2rem;
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.shortcut-category h3 {
+    color: #1F6C42;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e8f5e9;
+}
+
+/* 快捷键网格布局 */
+.shortcut-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+}
+
+/* 快捷键卡片样式 */
+.shortcut-card {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    border: 1px solid #e5e5e5;
+    transition: all 0.3s ease;
+}
+
+.shortcut-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.shortcut-name {
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.shortcut-keys {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.shortcut-keys .key {
+    background: #1F6C42;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-family: monospace;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.shortcut-description {
+    color: #666;
+    font-size: 0.95em;
+    line-height: 1.4;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .shortcut-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .shortcut-category {
+        padding: 1rem;
+    }
+}
+
+/* 搜索结果为空时的提示 */
+.no-results {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+    font-size: 1.1em;
+}
+
+/* 添加加载动画 */
+.shortcut-card {
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 } 
