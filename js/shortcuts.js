@@ -76,15 +76,20 @@ document.addEventListener('DOMContentLoaded', function() {
         keys.className = 'shortcut-keys';
         keys.innerHTML = shortcut.keys.map(key => 
             `<span class="key">${key}</span>`
-        ).join('');
+        ).join(' + ');
 
         const description = document.createElement('div');
         description.className = 'shortcut-description';
         description.textContent = shortcut.description;
 
+        const category = document.createElement('div');
+        category.className = 'shortcut-category-tag';
+        category.textContent = currentCategory === '全部' ? shortcut.category : currentCategory;
+
         card.appendChild(name);
         card.appendChild(keys);
         card.appendChild(description);
+        card.appendChild(category);
 
         return card;
     }
@@ -98,7 +103,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const filteredShortcuts = shortcuts.filter(shortcut => 
                 shortcut.name.toLowerCase().includes(term) || 
                 shortcut.description.toLowerCase().includes(term) ||
-                shortcut.keys.join(' ').toLowerCase().includes(term)
+                shortcut.keys.join(' ').toLowerCase().includes(term) ||
+                category.toLowerCase().includes(term)
             );
 
             if (filteredShortcuts.length > 0) {

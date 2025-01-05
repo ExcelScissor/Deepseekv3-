@@ -7,48 +7,12 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-
-        .logo a {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .logo h1 {
-            font-size: 24px;
-            margin: 0;
-            color: #1F6C42;
-            display: block;
-            margin-right: 10px;
-        }
-
-        .logo-image {
-            width: auto;
-            height: 40px;
-            margin-left: 5px;
-        }
-
-        @media (max-width: 768px) {
-            .logo-image {
-                height: 35px;
-            }
-        }
     </style>
 </head>
 <body>
     <header>
         <nav>
-            <div class="logo">
-                <a href="index.html">
-                    <h1>ExcelScissor</h1>
-                    <img class="logo-image" src="img/Logo.jpg" alt="ExcelScissor">
-                </a>
-            </div>
+            <h1><a href="index.html" style="text-decoration: none; color: #1F6C42;">ExcelScissor</a></h1>
             <ul class="nav-links">
                 <li><a href="resource.html"><i class="fas fa-database"></i> 资源库</a></li>
                 <li><a href="login.html"><i class="fas fa-user"></i> 登录</a></li>
@@ -71,9 +35,11 @@
                 <p>快速找到您需要的Excel技能和解决方案</p>
             </div>
             <div class="feature-card">
-                <i class="fas fa-graduation-cap"></i>
-                <h3>系统教学</h3>
-                <p>专业的课程体系，循序渐进的学习路径</p>
+                <a href="teaching.html" style="text-decoration: none; color: inherit;">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h3>系统教学</h3>
+                    <p>从入门到精通的Excel学习课程</p>
+                </a>
             </div>
             <div class="feature-card">
                 <a href="resource.html" style="text-decoration: none; color: inherit;">
@@ -83,9 +49,11 @@
                 </a>
             </div>
             <div class="feature-card">
-                <i class="fas fa-users"></i>
-                <h3>学习社区</h3>
-                <p>与Excel爱好者交流，分享经验心得</p>
+                <a href="community.html" style="text-decoration: none; color: inherit;">
+                    <i class="fas fa-users"></i>
+                    <h3>学习社区</h3>
+                    <p>与Excel爱好者交流，分享经验心得</p>
+                </a>
             </div>
         </section>
     </main>

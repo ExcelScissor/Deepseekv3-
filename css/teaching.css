@@ -1,0 +1,145 @@
+.teaching-main {
+    margin-top: 60px;
+    padding: 2rem;
+    min-height: calc(100vh - 80px);
+    background-color: #f8f9fa;
+}
+
+/* 添加内容包装器样式 */
+.content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 0 2rem;
+}
+
+.learning-section,
+.category-section {
+    width: 100%;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* 调整卡片网格布局 */
+.level-grid,
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+}
+
+/* 返回按钮样式调整 */
+.back-button {
+    position: fixed;
+    left: 20px;
+    top: 80px;
+    z-index: 2;
+}
+
+/* 响应式布局 */
+@media (max-width: 1024px) {
+    .level-grid,
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .level-grid,
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .content-wrapper {
+        padding: 0 1rem;
+    }
+}
+
+h2 {
+    color: #1F6C42;
+    margin-bottom: 1.5rem;
+    font-size: 1.6rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 2px solid #e8f5e9;
+}
+
+.level-card,
+.category-card {
+    background: #f8f9fa;
+    padding: 1.2rem;
+    border-radius: 8px;
+    border: 1px solid #e5e5e5;
+    transition: all 0.3s ease;
+}
+
+.level-card:hover,
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.level-icon,
+.category-icon {
+    font-size: 2.2rem;
+    color: #1F6C42;
+    margin-bottom: 0.8rem;
+}
+
+h3 {
+    color: #2c3e50;
+    margin: 0;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+p {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.course-list {
+    margin: 0;
+    background: white;
+    border-radius: 6px;
+    padding: 0.6rem;
+}
+
+.course-list li {
+    margin: 0.2rem 0;
+}
+
+.course-list a {
+    color: #1F6C42;
+    text-decoration: none;
+    display: block;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.course-list a:hover {
+    background: #e8f5e9;
+    padding-left: 1.5rem;
+    color: #1F6C42;
+}
+
+/* 添加标题行样式 */
+.card-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+/* 右侧内容区域样式 */
+.card-content {
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+} 

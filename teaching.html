@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExcelScissor - 系统教学</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/teaching.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <h1><a href="index.html" style="text-decoration: none; color: #1F6C42;">ExcelScissor</a></h1>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> 首页</a></li>
+                <li><a href="resource.html"><i class="fas fa-database"></i> 资源库</a></li>
+                <li><a href="login.html"><i class="fas fa-user"></i> 登录</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="teaching-main">
+        <button class="back-button" onclick="goBack()">
+            <i class="fas fa-arrow-left"></i> 返回
+        </button>
+
+        <div class="content-wrapper">
+            <section class="learning-section">
+                <h2>进阶学习</h2>
+                <div class="level-grid">
+                    <div class="level-card">
+                        <div class="card-header">
+                            <div class="level-icon">
+                                <i class="fas fa-seedling"></i>
+                            </div>
+                            <h3>入门</h3>
+                        </div>
+                        <div class="card-content">
+                            <ul class="course-list">
+                                <li><a href="#">Excel界面介绍</a></li>
+                                <li><a href="#">基本操作与快捷键</a></li>
+                                <li><a href="#">数据输入与格式设置</a></li>
+                                <li><a href="#">基础公式与函数</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="level-card">
+                        <div class="card-header">
+                            <div class="level-icon">
+                                <i class="fas fa-tree"></i>
+                            </div>
+                            <h3>熟练</h3>
+                        </div>
+                        <ul class="course-list">
+                            <li><a href="#">高级公式与函数</a></li>
+                            <li><a href="#">数据处理技巧</a></li>
+                            <li><a href="#">图表制作与分析</a></li>
+                            <li><a href="#">数据透视表应用</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="level-card">
+                        <div class="card-header">
+                            <div class="level-icon">
+                                <i class="fas fa-crown"></i>
+                            </div>
+                            <h3>精通</h3>
+                        </div>
+                        <ul class="course-list">
+                            <li><a href="#">VBA编程基础</a></li>
+                            <li><a href="#">宏的录制与使用</a></li>
+                            <li><a href="#">高级数据分析</a></li>
+                            <li><a href="#">自动化办公解决方案</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="category-section">
+                <h2>专项分类</h2>
+                <div class="category-grid">
+                    <div class="category-card">
+                        <div class="card-header">
+                            <div class="category-icon">
+                                <i class="fas fa-magic"></i>
+                            </div>
+                            <h3>特殊用法</h3>
+                        </div>
+                        <ul class="course-list">
+                            <li><a href="#">条件格式高级应用</a></li>
+                            <li><a href="#">数据验证技巧</a></li>
+                            <li><a href="#">自定义快捷键设置</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="category-card">
+                        <div class="card-header">
+                            <div class="category-icon">
+                                <i class="fas fa-briefcase"></i>
+                            </div>
+                            <h3>案例实战</h3>
+                        </div>
+                        <ul class="course-list">
+                            <li><a href="#">财务报表制作</a></li>
+                            <li><a href="#">销售数据分析</a></li>
+                            <li><a href="#">项目管理模板</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="category-card">
+                        <div class="card-header">
+                            <div class="category-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3>数据分析</h3>
+                        </div>
+                        <ul class="course-list">
+                            <li><a href="#">数据可视化技巧</a></li>
+                            <li><a href="#">高级图表制作</a></li>
+                            <li><a href="#">数据建模分析</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('页面加载完成');
+        });
+
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html> 
