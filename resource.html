@@ -7,96 +7,9 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/database.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        /* 顶部导航样式，但不固定位置 */
-        header {
-            background: white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-
-        /* 确保database-main内容不被顶部导航遮挡 */
-        .database-main {
-            margin-top: 20px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-
-        .logo a {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .logo h1 {
-            font-size: 24px;
-            margin: 0;
-            color: #1F6C42;
-            display: block;
-            margin-right: 10px;
-        }
-
-        .logo-image {
-            width: auto;
-            height: 40px;
-            margin-left: 5px;
-        }
-
-        @media (max-width: 768px) {
-            .logo-image {
-                height: 35px;
-            }
-        }
-
-        /* 修改返回按钮样式 */
-        .back-button {
-            position: fixed;
-            left: 20px;
-            top: 80px;
-            padding: 8px 15px;
-            background-color: #1F6C42;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            z-index: 1000;
-            transition: background-color 0.3s ease;
-        }
-
-        .back-button:hover {
-            background-color: #185535;
-        }
-
-        /* 修改返回按钮内的链接样式 */
-        .back-button a {
-            color: white;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        /* 调整搜索区域的位置 */
-        .search-container {
-            margin-top: 40px;  /* 增加上边距 */
-            margin-bottom: 30px;  /* 保持适当的下边距 */
-        }
-
-        /* 如果需要，也可以调整内容区域的位置 */
-        .content-container {
-            margin-top: 20px;  /* 与搜索框保持适当间距 */
-        }
-    </style>
 </head>
 <body>
-    <!-- 添加顶部导航，但不固定位置 -->
+    <!-- 保持原有的header -->
     <header>
         <nav>
             <div class="logo">
@@ -113,107 +26,25 @@
         </nav>
     </header>
 
-    <!-- 保持原有的database-main结构 -->
     <div class="database-main">
-        <!-- 原有的返回按钮 -->
         <button class="back-button" onclick="goBack()">
             <i class="fas fa-arrow-left"></i> 返回
         </button>
 
-        <!-- 搜索区域 -->
-        <div class="search-container">
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="搜索公式名（如直接输入：Vlookup）或快捷键（如直接输入：粘贴）...">
-            </div>
-        </div>
-
-        <!-- 内容区域 -->
-        <div class="content-container">
-            <!-- Excel公式部分 -->
-            <div class="formula-section">
-                <div class="section-header">
-                    <h2>Excel 公式</h2>
-                    <!-- 字母筛选器 -->
-                    <div class="alphabet-filter">
-                        <button class="letter active">全部</button>
-                        <button class="letter">A</button>
-                        <button class="letter">B</button>
-                        <button class="letter">C</button>
-                        <button class="letter">D</button>
-                        <button class="letter">E</button>
-                        <button class="letter">F</button>
-                        <button class="letter">G</button>
-                        <button class="letter">H</button>
-                        <button class="letter">I</button>
-                        <button class="letter">J</button>
-                        <button class="letter">K</button>
-                        <button class="letter">L</button>
-                        <button class="letter">M</button>
-                        <button class="letter">N</button>
-                        <button class="letter">O</button>
-                        <button class="letter">P</button>
-                        <button class="letter">Q</button>
-                        <button class="letter">R</button>
-                        <button class="letter">S</button>
-                        <button class="letter">T</button>
-                        <button class="letter">U</button>
-                        <button class="letter">V</button>
-                        <button class="letter">W</button>
-                        <button class="letter">X</button>
-                        <button class="letter">Y</button>
-                        <button class="letter">Z</button>
-                    </div>
-                    <!-- 分类筛选器 -->
-                    <div class="category-filter">
-                        <button class="category-btn active">全部</button>
-                        <button class="category-btn">数字</button>
-                        <button class="category-btn">逻辑</button>
-                        <button class="category-btn">文本</button>
-                        <button class="category-btn">查找与引用</button>
-                        <button class="category-btn">财务</button>
-                        <button class="category-btn">日期和时间</button>
-                        <button class="category-btn">统计</button>
-                    </div>
-                </div>
-                <!-- 公式列表容器 -->
-                <div class="formula-list">
-                    <!-- 公式内容将由JavaScript动态生成 -->
-                </div>
-            </div>
-
-            <!-- 快捷键部分 -->
-            <div class="shortcut-section">
-                <div class="section-header">
-                    <h2>快捷键</h2>
-                    <div class="os-selection">
-                        <button class="os-option active">
-                            <i class="fab fa-windows"></i>
-                            <span>Windows</span>
-                        </button>
-                        <button class="os-option">
-                            <i class="fab fa-apple"></i>
-                            <span>Mac</span>
-                        </button>
-                    </div>
-                    <div class="shortcut-category-filter">
-                        <button class="shortcut-category-btn active">全部</button>
-                        <button class="shortcut-category-btn">编辑操作</button>
-                        <button class="shortcut-category-btn">格式设置</button>
-                        <button class="shortcut-category-btn">数据处理</button>
-                        <button class="shortcut-category-btn">单元格操作</button>
-                        <button class="shortcut-category-btn">视图控制</button>
-                    </div>
-                </div>
-                <div class="shortcuts-list">
-                    <!-- 快捷键列表将由JavaScript动态生成 -->
-                </div>
-            </div>
+        <div class="resource-options">
+            <a href="formulas.html" class="resource-card">
+                <i class="fas fa-calculator"></i>
+                <h2>Excel 公式</h2>
+                <p>查找和学习Excel公式的用法与示例</p>
+            </a>
+            <a href="shortcuts.html" class="resource-card">
+                <i class="fas fa-keyboard"></i>
+                <h2>快捷键</h2>
+                <p>Windows和Mac系统的Excel快捷键</p>
+            </a>
         </div>
     </div>
 
-    <script src="js/excel-formulas.js"></script>
-    <script src="js/database.js"></script>
     <script>
         function goBack() {
             window.location.href = 'index.html';
