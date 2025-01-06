@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExcelScissor - 资源库</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/database.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- 保持原有的header -->
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html">
+                    <h1>ExcelScissor</h1>
+                    <img class="logo-image" src="img/Logo.jpg" alt="ExcelScissor">
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> 首页</a></li>
+                <li><a href="resource.html"><i class="fas fa-database"></i> 资源库</a></li>
+                <li><a href="login.html"><i class="fas fa-user"></i> 登录</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="database-main">
+        <button class="back-button" onclick="goBack()">
+            <i class="fas fa-arrow-left"></i> 返回
+        </button>
+
+        <div class="resource-options">
+            <a href="formulas.html" class="resource-card">
+                <i class="fas fa-calculator"></i>
+                <h2>Excel 公式</h2>
+                <p>查找和学习Excel公式的用法与示例</p>
+            </a>
+            <a href="shortcuts.html" class="resource-card">
+                <i class="fas fa-keyboard"></i>
+                <h2>快捷键</h2>
+                <p>Windows和Mac系统的Excel快捷键</p>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html> 

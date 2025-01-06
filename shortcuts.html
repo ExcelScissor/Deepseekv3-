@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExcelScissor - Excel快捷键</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/database.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html">
+                    <h1>ExcelScissor</h1>
+                    <img class="logo-image" src="img/Logo.jpg" alt="ExcelScissor">
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> 首页</a></li>
+                <li><a href="resource.html"><i class="fas fa-database"></i> 资源库</a></li>
+                <li><a href="login.html"><i class="fas fa-user"></i> 登录</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="database-main">
+        <button class="back-button" onclick="goBack()">
+            <i class="fas fa-arrow-left"></i> 返回
+        </button>
+
+        <!-- 搜索区域 -->
+        <div class="search-container">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="搜索快捷键、操作描述或分类...">
+            </div>
+        </div>
+
+        <!-- 快捷键内容区域 -->
+        <div class="shortcuts-section">
+            <div class="section-header">
+                <h2>Excel 快捷键</h2>
+                <!-- 系统选择 -->
+                <div class="os-selection">
+                    <button class="os-option active" data-os="windows">
+                        <i class="fab fa-windows"></i>
+                        <span>Windows</span>
+                    </button>
+                    <button class="os-option" data-os="mac">
+                        <i class="fab fa-apple"></i>
+                        <span>Mac</span>
+                    </button>
+                </div>
+                <!-- 分类筛选器 -->
+                <div class="shortcut-category-filter">
+                    <button class="shortcut-category-btn active">全部</button>
+                    <button class="shortcut-category-btn">文件操作</button>
+                    <button class="shortcut-category-btn">编辑</button>
+                    <button class="shortcut-category-btn">数据处理</button>
+                    <button class="shortcut-category-btn">格式设置</button>
+                    <button class="shortcut-category-btn">表格导航</button>
+                    <button class="shortcut-category-btn">插入与删除</button>
+                    <button class="shortcut-category-btn">查找与选择</button>
+                    <button class="shortcut-category-btn">视图调整</button>
+                    <button class="shortcut-category-btn">公式与函数</button>
+                    <button class="shortcut-category-btn">单元格操作</button>
+                    <button class="shortcut-category-btn">审阅与保护</button>
+                    <button class="shortcut-category-btn">页面设置</button>
+                    <button class="shortcut-category-btn">宏与开发工具</button>
+                    <button class="shortcut-category-btn">其他</button>
+                </div>
+            </div>
+            <!-- 快捷键列表容器 -->
+            <div class="shortcuts-list">
+                <!-- 快捷键内容将由JavaScript动态生成 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 注意引入顺序：先引入数据，再引入处理逻辑 -->
+    <script src="js/shortcuts-data.js"></script>
+    <script src="js/shortcuts.js"></script>
+    <script>
+        function goBack() {
+            window.location.href = 'resource.html';
+        }
+    </script>
+</body>
+</html> 

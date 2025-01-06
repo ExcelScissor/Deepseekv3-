@@ -29,13 +29,14 @@ const db = new sqlite3.Database(path.join(__dirname, '../database/excel_learning
 
 // 初始化数据库表
 function initDatabase() {
-    // 用户表
+    // 创建用户表
     db.run(`CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT UNIQUE NOT NULL,
         password TEXT NOT NULL,
         email TEXT UNIQUE NOT NULL,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )`);
 
     // Excel公式表
@@ -148,42 +149,41 @@ function initDatabase() {
 // 用户认证路由
 // 1. 注册
 app.post('/api/register', async (req, res) => {
-    try {
-        const { username, password, email } = req.body;
+    const { username, password, email } = req.body;
 
-        // 验证输入
-        if (!username || !password || !email) {
-            return res.status(400).json({ error: '所有字段都是必填的' });
+    if (!username || !password || !email) {
+        return res.status(400).json({ message: '所有字段都是必填的' });
+    }
+
+    // 检查用户名是否已存在
+    db.get('SELECT id FROM users WHERE username = ?', [username], async (err, user) => {
+        if (err) {
+            console.error('数据库查询错误:', err);
+            return res.status(500).json({ message: '服务器错误' });
         }
 
-        // 检查用户名和邮箱是否已存在
-        db.get('SELECT id FROM users WHERE username = ? OR email = ?', [username, email], async (err, user) => {
-            if (err) {
-                return res.status(500).json({ error: err.message });
-            }
-            if (user) {
-                return res.status(400).json({ error: '用户名或邮箱已存在' });
-            }
+        if (user) {
+            return res.status(400).json({ message: '用户名已存在' });
+        }
 
-            // 加密密码
-            const salt = await bcrypt.genSalt(10);
-            const hashedPassword = await bcrypt.hash(password, salt);
-
-            // 保存用户
+        try {
+            const hashedPassword = await bcrypt.hash(password, 10);
             const sql = 'INSERT INTO users (username, password, email) VALUES (?, ?, ?)';
+            
             db.run(sql, [username, hashedPassword, email], function(err) {
                 if (err) {
-                    return res.status(400).json({ error: err.message });
+                    console.error('创建用户错误:', err);
+                    return res.status(500).json({ message: '创建用户失败' });
                 }
 
-                // 生成JWT令牌
                 const token = jwt.sign(
-                    { id: this.lastID, username },
+                    { user_id: this.lastID, username },
                     process.env.JWT_SECRET,
                     { expiresIn: '24h' }
                 );
 
-                res.json({
+                res.status(201).json({
+                    message: '注册成功',
                     token,
                     user: {
                         id: this.lastID,
@@ -192,56 +192,52 @@ app.post('/api/register', async (req, res) => {
                     }
                 });
             });
-        });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+        } catch (err) {
+            console.error('密码加密错误:', err);
+            res.status(500).json({ message: '服务器错误' });
+        }
+    });
 });
 
 // 2. 登录
 app.post('/api/login', async (req, res) => {
-    try {
-        const { username, password } = req.body;
+    const { username, password } = req.body;
 
-        // 验证输入
-        if (!username || !password) {
-            return res.status(400).json({ error: '用户名和密码都是必填的' });
+    if (!username || !password) {
+        return res.status(400).json({ message: '用户名和密码不能为空' });
+    }
+
+    const sql = 'SELECT * FROM users WHERE username = ?';
+    db.get(sql, [username], async (err, user) => {
+        if (err) {
+            console.error('数据库查询错误:', err);
+            return res.status(500).json({ message: '服务器错误' });
         }
 
-        // 查找用户
-        db.get('SELECT * FROM users WHERE username = ?', [username], async (err, user) => {
-            if (err) {
-                return res.status(500).json({ error: err.message });
-            }
-            if (!user) {
-                return res.status(400).json({ error: '用户名或密码错误' });
-            }
+        if (!user) {
+            return res.status(401).json({ message: '用户名或密码错误' });
+        }
 
-            // 验证密码
-            const isMatch = await bcrypt.compare(password, user.password);
-            if (!isMatch) {
-                return res.status(400).json({ error: '用户名或密码错误' });
+        const isValidPassword = await bcrypt.compare(password, user.password);
+        if (!isValidPassword) {
+            return res.status(401).json({ message: '用户名或密码错误' });
+        }
+
+        const token = jwt.sign(
+            { user_id: user.id, username: user.username },
+            process.env.JWT_SECRET,
+            { expiresIn: '24h' }
+        );
+
+        res.json({
+            token,
+            user: {
+                id: user.id,
+                username: user.username,
+                email: user.email
             }
-
-            // 生成JWT令牌
-            const token = jwt.sign(
-                { id: user.id, username: user.username },
-                process.env.JWT_SECRET,
-                { expiresIn: '24h' }
-            );
-
-            res.json({
-                token,
-                user: {
-                    id: user.id,
-                    username: user.username,
-                    email: user.email
-                }
-            });
         });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+    });
 });
 
 // 3. 获取当前用户信息

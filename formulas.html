@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ExcelScissor - Excel公式</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/database.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="index.html">
+                    <h1>ExcelScissor</h1>
+                    <img class="logo-image" src="img/Logo.jpg" alt="ExcelScissor">
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html"><i class="fas fa-home"></i> 首页</a></li>
+                <li><a href="resource.html"><i class="fas fa-database"></i> 资源库</a></li>
+                <li><a href="login.html"><i class="fas fa-user"></i> 登录</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="database-main">
+        <button class="back-button" onclick="goBack()">
+            <i class="fas fa-arrow-left"></i> 返回
+        </button>
+
+        <!-- 搜索区域 -->
+        <div class="search-container">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="搜索公式名（如：VLOOKUP）或功能描述（如：查找）...">
+            </div>
+        </div>
+
+        <!-- 公式内容区域 -->
+        <div class="formula-section">
+            <div class="section-header">
+                <h2>Excel 公式</h2>
+                <!-- 字母筛选器 -->
+                <div class="alphabet-filter">
+                    <button class="letter active">全部</button>
+                    <button class="letter">A</button>
+                    <button class="letter">B</button>
+                    <button class="letter">C</button>
+                    <button class="letter">D</button>
+                    <button class="letter">E</button>
+                    <button class="letter">F</button>
+                    <button class="letter">G</button>
+                    <button class="letter">H</button>
+                    <button class="letter">I</button>
+                    <button class="letter">J</button>
+                    <button class="letter">K</button>
+                    <button class="letter">L</button>
+                    <button class="letter">M</button>
+                    <button class="letter">N</button>
+                    <button class="letter">O</button>
+                    <button class="letter">P</button>
+                    <button class="letter">Q</button>
+                    <button class="letter">R</button>
+                    <button class="letter">S</button>
+                    <button class="letter">T</button>
+                    <button class="letter">U</button>
+                    <button class="letter">V</button>
+                    <button class="letter">W</button>
+                    <button class="letter">X</button>
+                    <button class="letter">Y</button>
+                    <button class="letter">Z</button>
+                </div>
+                <!-- 分类筛选器 -->
+                <div class="category-filter">
+                    <button class="category-btn active">全部</button>
+                    <button class="category-btn">数字</button>
+                    <button class="category-btn">逻辑</button>
+                    <button class="category-btn">文本</button>
+                    <button class="category-btn">查找与引用</button>
+                    <button class="category-btn">财务</button>
+                    <button class="category-btn">日期和时间</button>
+                    <button class="category-btn">统计</button>
+                </div>
+            </div>
+            <!-- 公式列表容器 -->
+            <div class="formula-list">
+                <!-- 公式内容将由JavaScript动态生成 -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/excel-formulas.js"></script>
+    <script src="js/database.js"></script>
+    <script>
+        function goBack() {
+            window.location.href = 'resource.html';
+        }
+    </script>
+</body>
+</html> 
